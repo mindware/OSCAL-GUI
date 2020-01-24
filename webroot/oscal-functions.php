@@ -546,12 +546,20 @@ function GetBasicMetadata($oscal_file, $oscalproject="") {
 			$ret_val['title'] = $result;
 		}
 
-		// Get document last modificatoin date
+		// Get document formal publication date
 		$result = QueryOneItem($oscal_objects, OSCAL_METADATA_DATE);
 		if ($result === false || $result == "") {
 			$ret_val['date'] = "";
 		} else {
 			$ret_val['date'] = $result;
+		}
+
+		// Get document last modified date
+		$result = QueryOneItem($oscal_objects, OSCAL_METADATA_LAST_MODIFIED);
+		if ($result === false || $result == "") {
+			$ret_val['last-modified'] = "";
+		} else {
+			$ret_val['last-modified'] = $result;
 		}
 
 		// Get document version
@@ -1000,9 +1008,9 @@ function UpdateOSCALValidationFiles() {
 			$messages .= "<p style='color:red; font-size:1.5em;'>ONE OR MORE FILES DID NOT DOWNLOAD CORRECTLY!</p>";
 			$messages .= "<p>Check the link(s) below, to ensure each is valid.</p>";
 			$messages .= "<p>If a link is not valid, correct it in the oscal-config.php file.</p>";
-			$messages .= "<p>If links are valid, and you are running the";
-			$messages .= " back-end server on a workstation, your host firewall may be preventing";
-			$messages .= " this application from downloading files automatically.</p>";
+			$messages .= "<p>This requires the openssl extension to be enabled in the php.ini file if the URLS use SSL, as with the GitHub URLs.</p>";
+			$messages .= "<p>If links are valid and openssl is enabled, a host firewall may be preventing";
+			$messages .= " php.exe from downloading files.</p>";
 			$messages .= "<p>WORKAROUND: You can download the files manually and put them here:</p>";
 			$messages .= "<p style='font-weight:bold; font-size:1.2em;'>" . OSCAL_LOCAL_FILES . "</p>";
 			$messages .= "<p>After a manual download, you must compile the schema files via MAIN MENU \ \"Tools & Maintenance\" \ \"Compile Schema Files\".</p>";
